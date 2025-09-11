@@ -1,0 +1,93 @@
+#!/bin/bash
+
+mac_setup() {
+    # Initiate sudo to ensure permission
+    sudo -v
+    
+    # Check for Homebrew and install if we don't have it
+    if test ! $(which brew); then
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        echo -n "Installing Homebrew"
+        until
+        brew --version &
+        >/dev/null
+        do
+            sleep 5
+            echo -n "."
+        done
+        echo ""
+        echo "Homebrew installation completed"
+        
+        UNAME_MACHINE="$(/usr/bin/uname -m)"
+        
+        if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+            # On ARM macOS, this script installs to /opt/homebrew only
+            HOMEBREW_PREFIX="/opt/homebrew"
+            HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}"
+        else
+            # On Intel macOS, this script installs to /usr/local only
+            HOMEBREW_PREFIX="/usr/local"
+            HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
+        fi
+        (
+            echo
+            echo "eval \"\$(${HOMEBREW_PREFIX}/bin/brew shellenv)\""
+        ) >>${HOME}/.zprofile
+        eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
+    fi
+    
+    # Update Homebrew recipes
+    brew update
+    
+    # Install all our dependencies with bundle (See Brewfile)
+    brew tap homebrew/bundle
+    brew bundle --no-lock --no-upgrade --file ~/.config/Brewfile
+    
+    # Setup Iterm
+    wget http://ethanschoonover.com/solarized/files/solarized.zip && unzip solarized.zip
+    open solarized/iterm2-colors-solarized/Solarized\ Dark.itermcolors
+    rm -rf solarized && rm solarized.zip
+    
+    # Font
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P /Library/Fonts
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P /Library/Fonts
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P /Library/Fonts
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P /Library/Fonts
+    
+    source ~/.config/sketchybar/helpers/install.sh
+    
+    # Set macOS preferences
+    # We will run this last because this will reload the shell
+    source ~/.macos
+    
+    # start necessary services
+    brew services start sketchybar
+    open -a aerospace
+    open -a raycast
+}
+
+linux_setup() {
+    sudo apt install zsh curl git -y;
+    # Instal powerlevel10k
+    mkdir ~/.fonts
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P ~/.fonts/
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P ~/.fonts/
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P ~/.fonts/
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P ~/.fonts/
+    
+    sudo chsh -s $(which zsh) $USER
+}
+
+
+# if ~/antigen.zsh does not exists or is empty, download it
+if [ ! -f ~/antigen.zsh ] || [ ! -s ~/antigen.zsh ]; then
+    echo "Downloading antigen..."
+    curl -L git.io/antigen > ~/antigen.zsh
+fi
+
+echo "Installing packages... May need sudo access"
+{{ if eq .chezmoi.os "darwin" -}}
+mac_setup
+{{ else if eq .chezmoi.os "linux" -}}
+linux_setup
+{{ end -}}
