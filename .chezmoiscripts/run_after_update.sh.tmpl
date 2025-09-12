@@ -1,0 +1,18 @@
+
+mac_update() {
+    # Update Homebrew recipes
+    brew update
+    
+    # Install all our dependencies with bundle (See Brewfile)
+    brew bundle --file ~/.config/Brewfile
+}
+
+linux_update() {}
+
+
+
+{{ if eq .chezmoi.os "darwin" -}}
+mac_update
+{{ else if eq .chezmoi.os "linux" -}}
+linux_update
+{{ end -}}
