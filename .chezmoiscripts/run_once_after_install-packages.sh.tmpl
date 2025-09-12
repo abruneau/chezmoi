@@ -40,8 +40,7 @@ mac_setup() {
     brew update
     
     # Install all our dependencies with bundle (See Brewfile)
-    brew tap homebrew/bundle
-    brew bundle --no-lock --no-upgrade --file ~/.config/Brewfile
+    brew bundle --file ~/.config/Brewfile
     
     # Setup Iterm
     wget http://ethanschoonover.com/solarized/files/solarized.zip && unzip solarized.zip
