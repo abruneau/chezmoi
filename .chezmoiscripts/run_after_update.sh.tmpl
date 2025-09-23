@@ -1,3 +1,4 @@
+#!/bin/bash
 
 mac_update() {
     # Update Homebrew recipes
@@ -7,12 +8,6 @@ mac_update() {
     brew bundle --file ~/.config/Brewfile
 }
 
-linux_update() {}
-
-
-
 {{ if eq .chezmoi.os "darwin" -}}
-mac_update
-{{ else if eq .chezmoi.os "linux" -}}
-linux_update
+    mac_update
 {{ end -}}

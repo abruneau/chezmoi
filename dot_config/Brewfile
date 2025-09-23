@@ -1,5 +1,4 @@
 tap 'FelixKratz/formulae'
-tap 'homebrew/bundle'
 tap 'koekeishiya/formulae'
 tap 'shaunsingh/SFMono-Nerd-Font-Ligaturized'
 
@@ -26,7 +25,7 @@ brew 'zstd'
 
 cask 'beardedspice'
 cask 'bluesnooze'
-cask 'docker'
+cask 'docker-desktop'
 cask 'font-fira-code-nerd-font'
 cask 'iterm2'
 cask 'nikitabobko/tap/aerospace'
