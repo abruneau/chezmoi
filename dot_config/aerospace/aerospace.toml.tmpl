@@ -14,7 +14,7 @@ after-login-command = []
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     'exec-and-forget brew services run sketchybar',
-    {{- if eq .chezmoi.username "antonin.bruneau" }}
+    {{- if eq .chezmoi.username "antoninbruneau" }}
     'exec-and-forget ~/.config/aerospace/startup.sh',
     'exec-and-forget brew services run ollama',
     {{- end }}
