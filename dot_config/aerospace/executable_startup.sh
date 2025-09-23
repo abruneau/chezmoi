@@ -11,12 +11,5 @@ if [ "$day_of_week" -ge 1 ] && [ "$day_of_week" -le 5 ]; then
     open -a "Google Calendar"
     open -a "Slack"
     open -a "Obsidian"
-fi
-
-# Check if it's Monday (1)
-if [ "$day_of_week" -eq 1 ]; then
-    # Run your Monday script here
-    sleep 120
-    cd ~/projects/user_tracker
-    dd-auth -- go run .
+    open -a "Notion"
 fi
