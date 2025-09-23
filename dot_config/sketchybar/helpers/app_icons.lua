@@ -75,7 +75,7 @@ return {
   ["VimR"] = ":vim:",
   ["Keynote"] = ":keynote:",
   ["Keynote 讲演"] = ":keynote:",
-  ["iTerm"] = ":iterm:",
+  ["iTerm"] = ":terminal:",
   ["IntelliJ IDEA"] = ":idea:",
   ["Finder"] = ":finder:",
   ["访达"] = ":finder:",
