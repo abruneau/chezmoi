@@ -11,6 +11,7 @@ antigen init ~/.antigenrc
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -64,3 +65,23 @@ export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
+
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+. "$HOME/.local/bin/env"
+
+source ~/.oh-my-zsh/custom/*.zsh
+
+# Set iTerm Tab Title to Current Working Directory
+DISABLE_AUTO_TITLE="true"
+
+iterm_tab_title() {
+  echo -ne "\e]0;${PWD##*/}\a"
+}
+add-zsh-hook precmd iterm_tab_title
+
+alias cc="nono run --profile claude-code --allow-cwd claude"
+
+. ~/.asdf/plugins/java/set-java-home.zsh
