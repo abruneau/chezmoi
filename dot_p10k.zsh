@@ -100,6 +100,7 @@
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
+    tsugactx
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
@@ -1518,6 +1519,13 @@
   # Type `p10k help segment` for documentation and a more sophisticated example.
   function prompt_example() {
     p10k segment -b 1 -f 3 -i '⭐' -t 'hello, %n'
+  }
+
+  function prompt_tsugactx() {
+    (( $+functions[tsugactx_prompt_info] )) || return
+    local ctx="$(tsugactx_prompt_info)"
+    [[ -n "$ctx" ]] || return
+    p10k segment -f 0 -b 6 -t "🌲:${ctx}"
   }
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job

@@ -90,8 +90,8 @@ outer.right = 10
 # All possible modifiers: cmd, alt, ctrl, shift
 
 [mode.main.binding]
-ctrl-alt-a = 'layout h_accordion'
-ctrl-alt-d = 'layout tiles horizontal vertical'
+ctrl-shift-alt-cmd-a = 'layout h_accordion'
+ctrl-shift-alt-cmd-d = 'layout tiles horizontal vertical'
 
 ctrl-shift-alt-cmd-h = 'focus left'
 ctrl-shift-alt-cmd-j = 'focus down'
@@ -129,7 +129,7 @@ alt-ctrl-7 = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-w
 ctrl-shift-alt-cmd-x = 'workspace-back-and-forth'
 ctrl-shift-alt-cmd-space = 'layout floating tiling'
 ctrl-shift-alt-cmd-f = 'fullscreen --no-outer-gaps'
-# alt-shift-f = 'macos-native-fullscreen' 
+# alt-shift-f = 'macos-native-fullscreen'
 
 ctrl-alt-cmd-r = 'reload-config'
 # ctrl-alt-shift-r = 'exec-and-forget  sketchybar --reload'
@@ -151,7 +151,7 @@ cmd-h = [] # Disable "hide application"
 6_calendar = ['built-in', 'built-in']
 7_media = ['main', 'built-in']
 
-
+# aerospace list-apps
 # floating rules
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -175,6 +175,10 @@ run = ['move-node-to-workspace 2_notes']
 
 [[on-window-detected]]
 if.app-id = 'notion.id'
+run = ['move-node-to-workspace 2_notes']
+
+[[on-window-detected]]
+if.app-id = 'ai.krisp.krispMac'
 run = ['move-node-to-workspace 2_notes']
 
 ## media
@@ -238,4 +242,8 @@ run = ['move-node-to-workspace 5_code']
 
 [[on-window-detected]]
 if.app-id = 'dev.zed.Zed'
+run = ['move-node-to-workspace 5_code']
+
+[[on-window-detected]]
+if.app-id = 'com.stablyai.orca'
 run = ['move-node-to-workspace 5_code']

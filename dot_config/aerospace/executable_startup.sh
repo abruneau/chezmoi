@@ -8,8 +8,10 @@ if [ "$day_of_week" -ge 1 ] && [ "$day_of_week" -le 5 ]; then
     sleep 15
     # Open applications
     open -a "Gmail"
-    open -a "Google Calendar"
+    open -a "Google Agenda"
     open -a "Slack"
     open -a "Obsidian"
     open -a "Notion"
+    open -a "Orca"
+    open ~/Applications/Shan\ Shui\ Wallpaper.app
 fi

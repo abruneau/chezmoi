@@ -25,44 +25,23 @@ sbar.add("item", "widgets.caffeinate.padding", {
     width = settings.group_paddings
 })
 
+-- Matches only the instance this widget starts, not caffeinate run by other tools
+local own_caffeinate = "'caffeinate -id'"
+
+local function render(result)
+    caffeinate:set({
+        label = {
+            string = result == "" and icons.caffeinate.off or icons.caffeinate.on
+        }
+    })
+end
+
 local function update_caffeinate_state()
-    sbar.exec("pmset -g assertions | grep 'caffeinate' | awk '{print $2}' | cut -d '(' -f1 | head -n 1",
-        function(result)
-            if result == "" then
-                caffeinate:set({
-                    label = {
-                        string = icons.caffeinate.off
-                    }
-                })
-            else
-                caffeinate:set({
-                    label = {
-                        string = icons.caffeinate.on
-                    }
-                })
-            end
-        end)
+    sbar.exec("pgrep -fx " .. own_caffeinate, render)
 end
 
 local function toggle_caffeinate()
-    sbar.exec("pmset -g assertions | grep 'caffeinate' | awk '{print $2}' | cut -d '(' -f1 | head -n 1",
-        function(result)
-            if result == "" then
-                sbar.exec("caffeinate -id &")
-                caffeinate:set({
-                    label = {
-                        string = icons.caffeinate.on
-                    }
-                })
-            else
-                sbar.exec("kill -9 " .. result)
-                caffeinate:set({
-                    label = {
-                        string = icons.caffeinate.off
-                    }
-                })
-            end
-        end)
+    sbar.exec("pkill -fx " .. own_caffeinate .. " || { (caffeinate -id >/dev/null 2>&1 &); echo on; }", render)
 end
 
 caffeinate:subscribe("mouse.clicked", toggle_caffeinate)

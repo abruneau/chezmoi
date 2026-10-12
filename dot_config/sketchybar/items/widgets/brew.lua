@@ -24,7 +24,9 @@ local brew = sbar.add("item", "widgets.brew", {
 
 local function render_bar_item(count)
     local color
-    if count >= 30 and count <= 59 then
+    if count >= 60 then
+        color = colors.red
+    elseif count >= 30 and count <= 59 then
         color = colors.peach
     elseif count >= 10 and count <= 29 then
         color = colors.yellow
@@ -76,7 +78,6 @@ brew:subscribe({ "routine", "forced", "brew", "brew_update" }, function(env)
 end)
 
 brew:subscribe("mouse.clicked", function()
-    local drawing = brew:query().popup.drawing
     brew:set({ popup = { drawing = "toggle" } })
 end)
 

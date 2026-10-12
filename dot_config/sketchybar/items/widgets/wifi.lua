@@ -230,11 +230,12 @@ wifi:subscribe("mouse.clicked", toggle_details)
 wifi:subscribe("mouse.exited.global", hide_details)
 
 local function copy_label_to_clipboard(env)
-  local label = sbar.query(env.NAME).label.value
-  sbar.exec("echo \"" .. label .. "\" | pbcopy")
+  local query = sbar.query(env.NAME).label
+  local label, align = query.value, query.align
+  sbar.exec("printf '%s' '" .. label:gsub("'", "'\\''") .. "' | pbcopy")
   sbar.set(env.NAME, { label = { string = icons.clipboard, align="center" } })
   sbar.delay(1, function()
-    sbar.set(env.NAME, { label = { string = label, align = "right" } })
+    sbar.set(env.NAME, { label = { string = label, align = align } })
   end)
 end
 
